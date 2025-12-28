@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Tasarım kodların aynen korunmuştur */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #f5f5f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .app-container { background-color: white; width: 100%; max-width: 400px; height: 100vh; padding: 20px; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #333; }
+        .header i { font-size: 1.2rem; cursor: pointer; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .logo-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; margin-top: 20px; }
+        .logo-box { background-color: #fb7701; color: white; width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 12px; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+        .app-name { font-weight: bold; font-size: 1.5rem; color: #000; margin-bottom: 20px; }
+        .welcome-text { text-align: left; font-size: 14px; color: #666; line-height: 1.5; margin-bottom: 30px; padding: 0 5px; }
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-input { width: 100%; padding: 15px; background-color: #f2f2f2; border: none; border-radius: 8px; font-size: 14px; outline: none; color: #333; }
+        .password-toggle { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #999; cursor: pointer; }
+        .submit-btn { width: 100%; padding: 15px; background-color: #ffcea0; color: #d35400; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .submit-btn:hover { background-color: #fb7701; color: white; }
+        .register-link { text-align: center; margin-top: 25px; color: #333; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: block; }
+        #message-box { text-align: center; margin-top: 15px; font-size: 14px; min-height: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <i class="fa-solid fa-arrow-left" onclick="window.history.back()"></i>
+            <div class="header-right">
+                <i class="fa-solid fa-flag" style="color: red;"></i>
+                <i class="fa-solid fa-circle-user" style="color: #666;"></i>
+            </div>
+        </div>
+
+        <div class="logo-area">
+            <div class="logo-box">TEMU</div>
+            <div class="app-name">TEMU</div>
+        </div>
+
+        <div class="welcome-text">
+            Welcome to TEMU Mission Center, I hope you can earn more commissions here
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="tel" id="loginPhone" class="form-input" placeholder="Telefon numarası">
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="loginPassword" class="form-input" placeholder="Şifre">
+                <i class="fa-regular fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="loginUser()">Giriş yapmak</button>
+            
+            <div id="message-box"></div>
+
+            <a href="index.html" class="register-link">Şimdi kayıt ol</a>
+        </form>
+    </div>
+
+    <script>
+        async function loginUser() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('loginPassword').value;
+            const msgBox = document.getElementById('message-box');
+
+            msgBox.style.color = "red";
+
+            if (phone === "" || pass === "") {
+                msgBox.innerText = "Lütfen telefon ve şifrenizi girin.";
+                return;
+            }
+
+            // --- SUNUCUYA (SERVER.JS) GİRİŞ İSTEĞİ ---
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone, password: pass })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // 1. Kimin girdiğini tarayıcı hafızasına al (Oturum yönetimi için)
+                    localStorage.setItem('currentUserPhone', data.user.phone);
+                    
+                    // 2. Sunucudan gelen güncel verileri localStorage'a da geçici olarak eşitle
+                    // Bu sayede dashboard açılır açılmaz verileri hızlıca görebiliriz
+                    localStorage.setItem('balance', data.user.balance);
+                    localStorage.setItem('vipLevel', data.user.vipLevel);
+                    localStorage.setItem('completedTasks', JSON.stringify(data.user.completedTasks || []));
+
+                    msgBox.style.color = "green";
+                    msgBox.innerText = "Giriş Başarılı! Yönlendiriliyorsunuz...";
+
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html"; 
+                    }, 1000);
+                } else {
+                    // Sunucudan gelen hata mesajını göster (Hatalı şifre vb.)
+                    msgBox.innerText = data.message; 
+                }
+            } catch (error) {
+                msgBox.innerText = "Sunucuya bağlanılamadı!";
+                console.error("Giriş Hatası:", error);
+            }
+        }
+
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+    </script>
+</body>
+</html>

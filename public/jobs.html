@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İş Merkezi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- CSS AYARLARIN AYNI KALIYOR --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f5f5f5; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 480px; background-color: #f8f8f8; min-height: 100vh; position: relative; padding-bottom: 90px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: white; font-weight: bold; font-size: 18px; position: sticky; top: 0; z-index: 50; }
+        .balance-banner { margin: 10px 15px; background: linear-gradient(90deg, #fb7701 0%, #ff9030 100%); border-radius: 15px; padding: 20px; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(251, 119, 1, 0.3); }
+        .banner-left h4 { font-size: 12px; opacity: 0.9; margin-bottom: 5px; }
+        .banner-left span { font-size: 24px; font-weight: bold; }
+        .banner-right { text-align: right; }
+        .section-title { padding: 0 15px; font-weight: bold; margin: 20px 0 10px 0; font-size: 16px; color: #333; }
+
+        /* VIP GRID */
+        .vip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
+        .vip-card { background-color: white; border-radius: 15px; overflow: hidden; position: relative; display: flex; flex-direction: column; padding-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card-img-area { height: 110px; width: 100%; position: relative; overflow: hidden; background-color: #eee; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
+        .vip-badge-pill { position: absolute; top: 8px; left: 8px; background-color: #fb7701; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; z-index: 2; }
+        .status-badge-pill { position: absolute; top: 8px; right: 8px; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 2; color: white; }
+        .status-active { background-color: #2ecc71; }
+        .status-locked { background-color: rgba(0,0,0,0.5); }
+        .locked-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); z-index: 1; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; }
+        
+        .card-content { padding: 10px; flex-grow: 1; }
+        .price-text { font-size: 15px; font-weight: bold; color: #333; }
+        .commission-badge { font-size: 10px; font-weight: bold; background-color: #fff3e0; color: #fb7701; padding: 2px 6px; border-radius: 4px; }
+        
+        .action-btn-card { margin: 0 10px; padding: 8px; border-radius: 8px; border: none; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; }
+        .btn-success { background-color: #fb7701; color: white; }
+        .btn-fail { background-color: #fee2e2; color: #ef4444; }
+        .btn-locked { background-color: #e5e7eb; color: #9ca3af; }
+
+        /* ALT NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; height: 70px; background-color: white; display: flex; justify-content: space-around; align-items: flex-end; padding-bottom: 10px; border-top: 1px solid #eee; z-index: 999; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #999; font-size: 11px; width: 20%; margin-bottom: 5px; }
+        .nav-item i { font-size: 22px; margin-bottom: 4px; }
+        .nav-item.active { color: #fb7701; }
+        .nav-center-wrapper { position: relative; width: 20%; display: flex; justify-content: center; }
+        .nav-center-btn { width: 55px; height: 55px; background: linear-gradient(135deg, #fb7701 0%, #ff9030 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; position: absolute; bottom: 10px; box-shadow: 0 4px 10px rgba(251, 119, 1, 0.4); text-decoration: none; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-box { background-color: white; padding: 25px; border-radius: 15px; text-align: center; width: 80%; max-width: 300px; }
+        .modal-btn { background-color: #fb7701; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <i class="fa-solid fa-arrow-left" onclick="window.location.href='home.html'"></i>
+            <span>İş Merkezi</span>
+            <i class="fa-solid fa-circle-user" style="color: #999;"></i>
+        </div>
+
+        <div class="balance-banner">
+            <div class="banner-left">
+                <h4>Mevcut Bakiye</h4>
+                <span id="displayBalance">TRY 0.00</span>
+            </div>
+            <div class="banner-right">
+                <h4>VIP Seviyeniz</h4>
+                <span id="currentVipLevel">VIP0</span> 
+            </div>
+        </div>
+
+        <div class="section-title">VIP Görevler</div>
+
+        <div class="vip-grid" id="vipGrid">
+            </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item"> <i class="fa-solid fa-house"></i> <span>Ön Sayfa</span> </a>
+        <a href="jobs.html" class="nav-item active"> <i class="fa-solid fa-heart"></i> <span>İş</span> </a>
+        <div class="nav-center-wrapper">
+            <a href="orders.html" class="nav-center-btn"><i class="fa-solid fa-bolt"></i></a>
+        </div>
+        <a href="orders.html" class="nav-item"> <i class="fa-regular fa-file-lines"></i> <span>Emir</span> </a>
+        <a href="dashboard.html" class="nav-item"> <i class="fa-regular fa-face-smile"></i> <span>Bana ait</span> </a>
+    </div>
+
+    <div class="modal-overlay" id="alertModal">
+        <div class="modal-box">
+            <i class="fa-solid fa-circle-exclamation" style="font-size: 40px; color: #fb7701; margin-bottom: 15px;"></i>
+            <div id="modalMessage" style="margin-bottom: 20px; font-weight: 500;"></div>
+            <button class="modal-btn" onclick="closeModal()">Tamam</button>
+        </div>
+    </div>
+
+    <script>
+        const currentUserPhone = localStorage.getItem('currentUserPhone');
+        let userBalance = 0;
+        let userVipLevel = 0;
+
+        async function loadData() {
+            try {
+                // 1. Kullanıcı Verisini Al
+                const userRes = await fetch('/get-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: currentUserPhone })
+                });
+                const userData = await userRes.json();
+
+                // 2. VIP Paketlerini Sunucudan Al (YENİ)
+                const vipRes = await fetch('/api/get-vips');
+                const vipsFromServer = await vipRes.json();
+
+                if (userData.success) {
+                    userBalance = userData.user.balance;
+                    userVipLevel = userData.user.vipLevel;
+                    renderVips(vipsFromServer);
+                }
+            } catch (e) { console.error("Hata:", e); }
+        }
+
+        function renderVips(vips) {
+            document.getElementById('displayBalance').innerText = "TRY " + userBalance.toFixed(2);
+            document.getElementById('currentVipLevel').innerText = "VIP" + userVipLevel;
+
+            const grid = document.getElementById('vipGrid');
+            grid.innerHTML = "";
+
+            vips.forEach(vip => {
+                const isOwned = userVipLevel >= vip.level;
+                
+                grid.innerHTML += `
+                    <div class="vip-card">
+                        <div class="card-img-area">
+                            <div class="vip-badge-pill">VIP${vip.level}</div>
+                            <div class="status-badge-pill ${isOwned ? 'status-active' : 'status-locked'}">
+                                ${isOwned ? 'Aktif' : 'Kilitli'}
+                            </div>
+                            ${!isOwned ? '<div class="locked-overlay"><i class="fa-solid fa-lock"></i></div>' : ''}
+                            <img src="${vip.img}" class="product-img">
+                        </div>
+                        <div class="card-content">
+                            <div class="price-text">TRY ${vip.price.toLocaleString()}.00</div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                <span style="font-size: 10px; color: #888;">Komisyon</span>
+                                <span class="commission-badge">${vip.commission}</span>
+                            </div>
+                        </div>
+                        <button class="action-btn-card ${isOwned ? 'btn-locked' : (userBalance >= vip.price ? 'btn-success' : 'btn-fail')}" 
+                                onclick="${isOwned ? '' : `attemptBuyVip(${vip.level}, ${vip.price})`}" 
+                                ${isOwned ? 'disabled' : ''}>
+                            ${isOwned ? 'Aktif Paket' : (userBalance >= vip.price ? `Şimdi Katıl (${vip.price} TL)` : 'Yetersiz Bakiye')}
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        async function attemptBuyVip(level, price) {
+            if (level > userVipLevel + 1) {
+                showModal(`Lütfen önce VIP${level - 1} seviyesine geçiş yapın.`);
+                return;
+            }
+
+            if (userBalance < price) {
+                showModal("Bakiyeniz yetersiz! Lütfen yükleme yapın.");
+                return;
+            }
+
+            try {
+                const res = await fetch('/update-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: currentUserPhone, balance: userBalance - price, vipLevel: level })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    userBalance -= price;
+                    userVipLevel = level;
+                    showModal(`Tebrikler! VIP${level} üyeliğiniz aktif edildi.`);
+                    loadData(); // Veriyi tazelemek için tekrar çağır
+                }
+            } catch (e) { showModal("Bir hata oluştu."); }
+        }
+
+        function showModal(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('alertModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('alertModal').style.display = 'none'; }
+        window.onload = loadData;
+    </script>
+</body>
+</html>

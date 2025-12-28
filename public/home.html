@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMU Ana Sayfa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Tasarım kodların aynen korunmuştur */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f5f5f5; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 480px; background-color: #f8f8f8; min-height: 100vh; position: relative; padding-bottom: 90px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .top-bar { background-color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .brand-logo { background-color: #fb7701; color: white; padding: 5px 10px; font-weight: bold; font-size: 18px; border-radius: 4px; }
+        .top-icons { display: flex; gap: 15px; color: #333; font-size: 20px; }
+        .banner-section { padding: 15px; }
+        .promo-card { background: linear-gradient(135deg, #fb7701 0%, #ff9030 100%); border-radius: 15px; padding: 20px; color: white; display: flex; justify-content: space-between; align-items: center; height: 160px; position: relative; overflow: hidden; }
+        .promo-text h1 { font-size: 32px; font-weight: bold; margin-bottom: 5px; }
+        .promo-text p { font-size: 14px; opacity: 0.9; }
+        .promo-tag { background-color: #ff4757; color: white; padding: 2px 8px; font-size: 12px; border-radius: 4px; position: absolute; top: 15px; right: 15px; }
+        .promo-img { font-size: 80px; color: rgba(255,255,255,0.2); transform: rotate(-10deg); }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 0 15px; margin-bottom: 20px; }
+        .action-btn { background-color: white; border: 1px solid #fb7701; border-radius: 10px; padding: 15px 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fb7701; cursor: pointer; height: 100px; font-size: 13px; }
+        .action-btn i { font-size: 24px; margin-top: 5px; }
+        .btn-filled { background-color: #fb7701; color: white; }
+        .user-section { padding: 0 15px; margin-bottom: 20px; }
+        .user-header-panel { background-color: #fb7701; border-radius: 15px; padding: 20px; color: white; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .user-avatar-bg { background-color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fb7701; font-size: 24px; }
+        .user-info-text .u-name { font-size: 12px; opacity: 0.9; }
+        .user-info-text .u-phone { font-size: 18px; font-weight: bold; margin: 2px 0; }
+        .user-info-text .u-code { font-size: 12px; opacity: 0.9; cursor: pointer; display: flex; align-items: center; gap: 5px;}
+        .top-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .stat-box-separate { background-color: white; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; justify-content: center; }
+        .sb-label { font-size: 12px; color: #666; margin-bottom: 5px; }
+        .sb-value { font-size: 18px; font-weight: bold; color: #000; }
+        .bottom-stats-panel { background-color: white; border-radius: 10px; padding: 10px 0; display: grid; grid-template-columns: 1fr 1fr; }
+        .bs-item { padding: 15px; text-align: center; border-bottom: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0; }
+        .bs-item:nth-child(2n) { border-right: none; }
+        .bs-item:nth-child(3), .bs-item:nth-child(4) { border-bottom: none; }
+        .bs-val-green { color: #2ecc71; font-weight: bold; font-size: 16px; margin-top: 5px;}
+        .bs-val-black { color: #000; font-weight: bold; font-size: 16px; margin-top: 5px;}
+        .bs-val-orange { color: #fb7701; font-weight: bold; font-size: 16px; margin-top: 5px;}
+        .bs-val-blue { color: #3498db; font-weight: bold; font-size: 16px; margin-top: 5px;}
+        .scrolling-section { padding: 0 15px; margin-bottom: 20px; }
+        .section-title { font-weight: bold; margin-bottom: 10px; font-size: 16px; color: #000; }
+        .ticker-container { height: 280px; overflow: hidden; position: relative; background-color: white; border-radius: 10px; }
+        .ticker-content { position: absolute; width: 100%; animation: scrollUp 15s linear infinite; }
+        @keyframes scrollUp { 0% { top: 0; } 100% { top: -450px; } }
+        .ticker-item { background-color: white; margin-bottom: 10px; border-radius: 10px; border: 1px solid #eee; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .ticker-left { display: flex; align-items: center; gap: 10px; }
+        .t-logo-box { background-color: #fb7701; color: white; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 12px; }
+        .t-phone { color: #666; font-size: 14px; }
+        .ticker-right { text-align: right; }
+        .t-lbl { font-size: 11px; color: #999; }
+        .t-amount { font-weight: bold; font-size: 15px; color: #000; }
+        .partners-section { padding: 0 15px; margin-bottom: 20px; }
+        .partners-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .partner-box { background-color: white; height: 50px; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 13px; color: #555; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .p-dark { background-color: #2c3e50; color: white; }
+        .p-red { background-color: #e74c3c; color: white; }
+        .p-orange { color: #e67e22; }
+        .p-blue { color: #3498db; }
+        .p-yellow { color: #f1c40f; }
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; height: 70px; background-color: white; display: flex; justify-content: space-around; align-items: flex-end; padding-bottom: 10px; border-top: 1px solid #eee; z-index: 999; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #999; font-size: 11px; width: 20%; margin-bottom: 5px; }
+        .nav-item i { font-size: 22px; margin-bottom: 4px; }
+        .nav-item.active { color: #fb7701; }
+        .nav-center-wrapper { position: relative; width: 20%; display: flex; justify-content: center; }
+        .nav-center-btn { width: 55px; height: 55px; background: linear-gradient(135deg, #fb7701 0%, #ff9030 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; position: absolute; bottom: 10px; box-shadow: 0 4px 10px rgba(251, 119, 1, 0.4); text-decoration: none; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-box { background-color: white; padding: 30px; border-radius: 15px; text-align: center; width: 80%; max-width: 300px; }
+        .modal-close-btn { background-color: #fb7701; color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; margin-top: 15px; }
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 25px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 100px; transform: translateX(-50%); font-size: 14px; }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="top-bar">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="brand-logo">TEMU</div>
+                <span style="font-weight: bold;">TEMU</span>
+            </div>
+            <div class="top-icons">
+                <i class="fa-solid fa-flag" style="color: red; font-size: 16px;"></i>
+                <i class="fa-regular fa-bell"></i>
+                <i class="fa-regular fa-user" onclick="window.location.href='dashboard.html'"></i>
+            </div>
+        </div>
+
+        <div class="banner-section">
+            <div class="promo-card">
+                <div class="promo-text">
+                    <h1>TEMU</h1>
+                    <p>%90'a varan indirim</p>
+                </div>
+                <i class="fa-solid fa-mobile-screen-button promo-img"></i>
+                <div class="promo-tag">%90 OFF</div>
+            </div>
+        </div>
+
+        <div class="action-grid">
+            <div class="action-btn" onclick="showContactModal()">
+                <span>Şimdi şarj edin</span>
+                <i class="fa-solid fa-bolt-lightning"></i>
+            </div>
+            <div class="action-btn" onclick="showContactModal()">
+                <span>Hızlı nakit çekme</span>
+                <i class="fa-solid fa-download"></i>
+            </div>
+            <div class="action-btn btn-filled" onclick="copyInviteCode()">
+                <span style="color: white;">Arkadaşları davet etmek</span>
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+        </div>
+
+        <div class="user-section">
+            
+            <div class="user-header-panel">
+                <div class="user-avatar-bg"><i class="fa-solid fa-user"></i></div>
+                <div class="user-info-text">
+                    <div class="u-name">Kullanıcı adı</div>
+                    <div class="u-phone" id="displayPhone">Yükleniyor...</div>
+                    <div class="u-code" onclick="copyInviteCode()">
+                        Promosyon kodu: <span id="myRefCode" style="font-weight: bold;">---</span> 
+                        <i class="fa-regular fa-copy"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-stats-row">
+                <div class="stat-box-separate">
+                    <div class="sb-label">Hesap bakiyesi</div>
+                    <div class="sb-value" id="displayBalance">TRY 0.00</div>
+                </div>
+                <div class="stat-box-separate">
+                    <div class="sb-label">Misyon fonları</div>
+                    <div class="sb-value" id="displayMission">TRY 0.00</div>
+                </div>
+            </div>
+
+            <div class="bottom-stats-panel">
+                <div class="bs-item">
+                    <div class="sb-label">Bugünkü kazanç</div>
+                    <div class="bs-val-green">TRY 0.00</div>
+                </div>
+                <div class="bs-item">
+                    <div class="sb-label">Dünkü kazanç</div>
+                    <div class="bs-val-black">TRY 0.00</div>
+                </div>
+                <div class="bs-item">
+                    <div class="sb-label">Kümülatif gelir</div>
+                    <div class="bs-val-orange" id="displayCumulative">TRY 0.00</div>
+                </div>
+                <div class="bs-item">
+                    <div class="sb-label">Takım faydaları</div>
+                    <div class="bs-val-blue">TRY 0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scrolling-section">
+            <div class="section-title">Kullanıcı komisyonu gelir dinamikleri</div>
+            <div class="ticker-container">
+                <div class="ticker-content">
+                    <div class="ticker-item">
+                        <div class="ticker-left"><div class="t-logo-box">TEMU</div><span class="t-phone">+90*******42</span></div>
+                        <div class="ticker-right"><span class="t-lbl">Komisyon</span><br><span class="t-amount">TRY 33,527.00</span></div>
+                    </div>
+                    <div class="ticker-item">
+                        <div class="ticker-left"><div class="t-logo-box">TEMU</div><span class="t-phone">+90*******88</span></div>
+                        <div class="ticker-right"><span class="t-lbl">Komisyon</span><br><span class="t-amount">TRY 3,766.00</span></div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="partners-section">
+            <div class="section-title">Ortak</div>
+            <div class="partners-grid">
+                <div class="partner-box p-orange">noon</div>
+                <div class="partner-box">amazon</div>
+                <div class="partner-box p-dark">Bonmarché</div>
+                <div class="partner-box p-red">ebay</div>
+                <div class="partner-box p-orange">JUMIA</div>
+                <div class="partner-box p-red">LAVA LAVA</div>
+                <div class="partner-box p-orange">Shopee</div>
+                <div class="partner-box p-blue">Walmart</div>
+                <div class="partner-box p-yellow">SOUQ</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Ön Sayfa</span>
+        </a>
+        <a href="jobs.html" class="nav-item">
+            <i class="fa-regular fa-heart"></i>
+            <span>İş</span>
+        </a>
+        <div class="nav-center-wrapper">
+            <a href="orders.html" class="nav-center-btn"><i class="fa-solid fa-bolt"></i></a>
+        </div>
+        <a href="orders.html" class="nav-item">
+            <i class="fa-regular fa-file-lines"></i>
+            <span>Emir</span>
+        </a>
+        <a href="dashboard.html" class="nav-item">
+            <i class="fa-regular fa-face-smile"></i>
+            <span>Bana ait</span>
+        </a>
+    </div>
+
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box">
+            <i class="fa-solid fa-headset" style="font-size: 40px; color: #fb7701; margin-bottom: 15px;"></i>
+            <div style="margin-bottom: 20px;">Bu işlem için yetkili ile iletişime geçilmeli.</div>
+            <button class="modal-close-btn" onclick="closeContactModal()">Tamam</button>
+        </div>
+    </div>
+    <div id="toast">Davet kodu kopyalandı!</div>
+
+    <script>
+        // --- SUNUCU ENTEGRASYONU ---
+        const currentUserPhone = localStorage.getItem('currentUserPhone');
+        
+        if (!currentUserPhone) {
+            window.location.href = "login.html";
+        }
+
+        async function fetchHomeData() {
+            try {
+                const response = await fetch('http://localhost:3000/get-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: currentUserPhone })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    // UI Güncelleme
+                    document.getElementById('displayPhone').innerText = data.user.phone;
+                    document.getElementById('displayBalance').innerText = "TRY " + data.user.balance.toFixed(2);
+                    document.getElementById('displayMission').innerText = "TRY " + data.user.balance.toFixed(2);
+                    document.getElementById('displayCumulative').innerText = "TRY " + (data.user.balance - 50).toFixed(2);
+                    
+                    // Rastgele Promosyon Kodu (Veya veritabanından varsa onu çekin)
+                    document.getElementById('myRefCode').innerText = "LJ" + data.user.phone.substring(7);
+
+                    // LocalStorage Senkronizasyonu
+                    localStorage.setItem('balance', data.user.balance);
+                    localStorage.setItem('vipLevel', data.user.vipLevel);
+                }
+            } catch (error) {
+                console.error("Veri çekme hatası:", error);
+            }
+        }
+
+        window.onload = fetchHomeData;
+
+        // --- UI FONKSİYONLARI ---
+        function showContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
+        function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
+        
+        function copyInviteCode() {
+            const code = document.getElementById('myRefCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast("Kopyalandı: " + code);
+            });
+        }
+
+        function showToast(message) {
+            var x = document.getElementById("toast");
+            x.innerText = message;
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+</html>

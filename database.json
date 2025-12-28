@@ -1,0 +1,103 @@
+[
+  {
+    "phone": "5464533433",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 0,
+    "vipLevel": 1,
+    "completedTasks": []
+  },
+  {
+    "phone": "5069125155",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 190175,
+    "vipLevel": 6,
+    "completedTasks": [
+      1,
+      101,
+      102,
+      1766880737557,
+      1766881368160,
+      1766881401213,
+      1766881619163,
+      1766881834771,
+      1766884629546,
+      1766884643199
+    ],
+    "frozenBalance": 0
+  },
+  {
+    "phone": "5069125151",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 0,
+    "frozenBalance": 0,
+    "vipLevel": 1,
+    "completedTasks": []
+  },
+  {
+    "phone": "5069125156",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 200,
+    "frozenBalance": 100,
+    "vipLevel": 2,
+    "completedTasks": []
+  },
+  {
+    "phone": "5069129199",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 50,
+    "frozenBalance": 0,
+    "vipLevel": 1,
+    "completedTasks": [
+      1766882334991
+    ]
+  },
+  {
+    "phone": "4354343434",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 50,
+    "frozenBalance": 0,
+    "vipLevel": 0,
+    "completedTasks": []
+  },
+  {
+    "phone": "43567545666",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 100,
+    "frozenBalance": 200,
+    "vipLevel": 1,
+    "completedTasks": [
+      1766883068517
+    ]
+  },
+  {
+    "phone": "576345566",
+    "password": "123",
+    "withdrawPassword": "123",
+    "balance": 150,
+    "frozenBalance": 0,
+    "vipLevel": 1,
+    "completedTasks": [
+      1766884804312,
+      1766884830355
+    ]
+  },
+  {
+    "phone": "5434563444",
+    "password": "1234",
+    "withdrawPassword": "1234",
+    "balance": 0,
+    "frozenBalance": 0,
+    "vipLevel": 2,
+    "completedTasks": [
+      1766884804312,
+      1766884830355
+    ]
+  }
+]

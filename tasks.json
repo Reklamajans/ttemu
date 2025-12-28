@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1766884629546,
+    "title": "1. görev",
+    "vip": 6,
+    "image": "",
+    "price": 10,
+    "profit": 20
+  },
+  {
+    "id": 1766884643199,
+    "title": "2. görewv",
+    "vip": 6,
+    "image": "",
+    "price": 100,
+    "profit": 12
+  },
+  {
+    "id": 1766884804312,
+    "title": "1. görev ayakkabı ",
+    "vip": 1,
+    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRpKwXu_aUFTiha9mpsNjh7D96SRAX9_h9bqYAVPsYirYei3aQ6uJC3n9AtiMgyoKexBi6TrFUWlg6-E5aSI246dP4viEErVDQXwPb0HQHyvPlZr1tmUALi",
+    "price": 0,
+    "profit": 50
+  },
+  {
+    "id": 1766884830355,
+    "title": "2. görev drone ",
+    "vip": 1,
+    "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSnjBDWhYK0nCic26cR_H683owq47nWUoCfBT5SnuWbZ3n6XMm5OQPHqufpnCNxAIFHivQoLjQ-1znEjRzMWqMXbcZknOB-TS-Qq9pZoS89PnezJhzlmtd8Hw",
+    "price": 25,
+    "profit": 100
+  }
+]

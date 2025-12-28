@@ -1,0 +1,38 @@
+[
+  {
+    "level": 1,
+    "price": 150,
+    "commission": "%15",
+    "img": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"
+  },
+  {
+    "level": 2,
+    "price": 150,
+    "commission": "%18",
+    "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
+  },
+  {
+    "level": 3,
+    "price": 1500,
+    "commission": "%20",
+    "img": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400"
+  },
+  {
+    "level": 4,
+    "price": 3000,
+    "commission": "%22",
+    "img": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400"
+  },
+  {
+    "level": 5,
+    "price": 5000,
+    "commission": "%25",
+    "img": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400"
+  },
+  {
+    "level": 6,
+    "price": 10000,
+    "commission": "%30",
+    "img": "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400"
+  }
+]

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>TEMU - Yönetim Paneli</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #fb7701; --bg: #f4f7f6; --dark: #333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+        /* --- GİRİŞ EKRANI --- */
+        #loginOverlay { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; justify-content: center; align-items: center; }
+        .login-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        .login-box h2 { margin-bottom: 20px; color: var(--primary); }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #e66d00; }
+        .btn-red { background: #e74c3c; }
+        .btn-blue { background: #3498db; }
+
+        /* --- PANEL ANA YAPI --- */
+        #adminPanel { display: none; width: 100%; max-width: 1200px; height: 90vh; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .sidebar { width: 250px; background: #2c3e50; color: white; padding: 20px; display: flex; flex-direction: column; }
+        .sidebar h2 { font-size: 20px; margin-bottom: 30px; text-align: center; border-bottom: 1px solid #444; padding-bottom: 15px; }
+        .menu-btn { background: none; border: none; color: #bdc3c7; padding: 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 16px; transition: 0.3s; }
+        .menu-btn.active { background: var(--primary); color: white; }
+        .menu-btn i { margin-right: 10px; }
+        
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; background: white; }
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .search-container { position: relative; }
+        #searchDropdown { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #eee; border-radius: 8px; z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: none; }
+        .search-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #f9f9f9; }
+        .search-item:hover { background: #fff5e6; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .card { background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
+        th { background: #f8f8f8; color: #666; }
+        .task-thumb { width: 40px; height: 40px; border-radius: 5px; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <div id="loginOverlay">
+        <div class="login-box">
+            <h2>Admin Girişi</h2>
+            <input type="text" id="adminUser" placeholder="Kullanıcı Adı">
+            <input type="password" id="adminPass" placeholder="Şifre">
+            <button class="btn" onclick="handleLogin()">Giriş Yap</button>
+        </div>
+    </div>
+
+    <div id="adminPanel" style="display: flex;">
+        <div class="sidebar">
+            <h2>TEMU YÖNETİM</h2>
+            <button class="menu-btn active" onclick="switchSection('userSection', this)"><i class="fa-solid fa-users"></i> Kullanıcılar</button>
+            <button class="menu-btn" onclick="switchSection('taskSection', this)"><i class="fa-solid fa-tasks"></i> Görev Yönetimi</button>
+            <button class="menu-btn" onclick="switchSection('vipSection', this)"><i class="fa-solid fa-gem"></i> VIP Paket Ayarları</button>
+            <button class="menu-btn" onclick="location.reload()"><i class="fa-solid fa-sign-out"></i> Çıkış</button>
+        </div>
+
+        <div class="main-content">
+            <div id="userSection" class="section active">
+                <h1 style="margin-bottom: 20px;">Kullanıcı Yönetimi</h1>
+                <div class="card search-container">
+                    <label>Kullanıcı Ara (Numara Yazın):</label>
+                    <input type="text" id="userSearchInput" oninput="searchUsers(this.value)" placeholder="Örn: 0532...">
+                    <div id="searchDropdown"></div>
+                </div>
+
+                <div id="editArea" style="margin-top: 30px; display: none;">
+                    <h3>Düzenleniyor: <span id="editingPhone" style="color: var(--primary);"></span></h3>
+                    <div class="form-row">
+                        <div><label>Ana Bakiye (TRY):</label><input type="number" id="editBalance"></div>
+                        <div><label>Dondurulmuş Bakiye (TRY):</label><input type="number" id="editFrozen"></div>
+                    </div>
+                    <div class="form-row">
+                        <div><label>VIP Seviyesi:</label>
+                            <select id="editVip">
+                                <option value="0">VIP 0</option><option value="1">VIP 1</option><option value="2">VIP 2</option>
+                                <option value="3">VIP 3</option><option value="4">VIP 4</option><option value="5">VIP 5</option><option value="6">VIP 6</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; align-items: flex-end;"><button class="btn" onclick="saveUserChanges()">Güncellemeleri Kaydet</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="taskSection" class="section">
+                <h1>Görev Yönetimi</h1>
+                <div class="card">
+                    <h3 id="formTitle">Yeni Görev Ekle</h3>
+                    <input type="hidden" id="editTaskId">
+                    <div class="form-row">
+                        <div><label>Görev Adı:</label><input type="text" id="tName"></div>
+                        <div><label>VIP Seviyesi:</label><input type="number" id="tVip" value="1"></div>
+                    </div>
+                    <div class="form-row">
+                        <div><label>Görsel Linki:</label><input type="text" id="tImg"></div>
+                        <div><label>Maliyet (0 yazılabilir):</label><input type="number" id="tPrice" value="0"></div>
+                    </div>
+                    <div class="form-row">
+                        <div><label>Kazanç (Komisyon):</label><input type="number" id="tProfit"></div>
+                        <div style="display: flex; align-items: flex-end; gap: 10px;">
+                            <button class="btn" id="taskSubmitBtn" onclick="saveTask()">Görevi Yayınla</button>
+                            <button class="btn btn-red" id="cancelEditBtn" style="display: none;" onclick="resetTaskForm()">İptal</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Mevcut Görevler</h3>
+                    <table id="taskTable">
+                        <thead>
+                            <tr>
+                                <th>Resim</th><th>Görev Adı</th><th>VIP</th><th>Kazanç</th><th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="vipSection" class="section">
+                <h1>VIP Paket Ücretleri & Komisyonları</h1>
+                <p style="margin-bottom: 20px; color: #666;">Burada yaptığınız değişiklikler 'İş Merkezi' sayfasındaki paketleri günceller.</p>
+                <div id="vipSettingsList">
+                    </div>
+                <button class="btn btn-blue" onclick="saveVipSettings()" style="max-width: 300px; margin-top: 10px;">Tüm VIP Ayarlarını Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+            if(user === "admin" && pass === "123") {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'flex';
+            } else { alert("Hatalı Giriş!"); }
+        }
+
+        function switchSection(id, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+            if(id === 'taskSection') loadTasks();
+            if(id === 'vipSection') loadVipSettings();
+        }
+
+        // --- KULLANICI İŞLEMLERİ ---
+        async function searchUsers(val) {
+            if(val.length < 2) { document.getElementById('searchDropdown').style.display = 'none'; return; }
+            const res = await fetch(`/admin/search-users?q=${val}`);
+            const users = await res.json();
+            const drop = document.getElementById('searchDropdown');
+            drop.innerHTML = "";
+            users.forEach(u => {
+                const div = document.createElement('div');
+                div.className = "search-item";
+                div.innerText = `${u.phone} (VIP${u.vipLevel})`;
+                div.onclick = () => selectUser(u);
+                drop.appendChild(div);
+            });
+            drop.style.display = 'block';
+        }
+
+        function selectUser(user) {
+            document.getElementById('searchDropdown').style.display = 'none';
+            document.getElementById('editArea').style.display = 'block';
+            document.getElementById('editingPhone').innerText = user.phone;
+            document.getElementById('editBalance').value = user.balance;
+            document.getElementById('editFrozen').value = user.frozenBalance || 0;
+            document.getElementById('editVip').value = user.vipLevel;
+        }
+
+        async function saveUserChanges() {
+            const phone = document.getElementById('editingPhone').innerText;
+            const balance = document.getElementById('editBalance').value;
+            const frozen = document.getElementById('editFrozen').value;
+            const vip = document.getElementById('editVip').value;
+            const res = await fetch('/admin/update-user-full', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ phone, balance, frozenBalance: frozen, vipLevel: vip })
+            });
+            if(res.ok) alert("Kullanıcı güncellendi!");
+        }
+
+        // --- VIP AYARLARI (YENİ) ---
+        async function loadVipSettings() {
+            const res = await fetch('/api/get-vips');
+            const vips = await res.json();
+            const container = document.getElementById('vipSettingsList');
+            container.innerHTML = "";
+            vips.forEach((vip, index) => {
+                container.innerHTML += `
+                    <div class="card">
+                        <h3 style="color: var(--primary); margin-bottom:10px;">VIP ${vip.level} Paketi</h3>
+                        <div class="form-row">
+                            <div><label>Paket Fiyatı (TRY):</label><input type="number" class="vip-price-input" data-level="${vip.level}" value="${vip.price}"></div>
+                            <div><label>Komisyon Oranı (Metin):</label><input type="text" class="vip-comm-input" data-level="${vip.level}" value="${vip.commission}"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function saveVipSettings() {
+            const priceInputs = document.querySelectorAll('.vip-price-input');
+            const commInputs = document.querySelectorAll('.vip-comm-input');
+            const resVips = await fetch('/api/get-vips');
+            let vips = await resVips.json();
+
+            vips.forEach((vip, i) => {
+                vip.price = parseInt(priceInputs[i].value);
+                vip.commission = commInputs[i].value;
+            });
+
+            const res = await fetch('/admin/update-vips', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(vips)
+            });
+            if(res.ok) alert("VIP Paket ayarları başarıyla kaydedildi!");
+        }
+
+        // --- GÖREV İŞLEMLERİ (MEVCUT) ---
+        async function loadTasks() {
+            const res = await fetch('/admin/get-tasks');
+            const tasks = await res.json();
+            const tbody = document.getElementById('taskTableBody');
+            tbody.innerHTML = "";
+            tasks.forEach(task => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><img src="${task.image}" class="task-thumb"></td>
+                        <td>${task.title}</td>
+                        <td>VIP${task.vip}</td>
+                        <td>${task.profit} TL</td>
+                        <td>
+                            <button onclick='startEditTask(${JSON.stringify(task).replace(/'/g, "&apos;")})' class="btn-blue" style="padding: 5px 10px; border:none; color:white; border-radius:5px; cursor:pointer;">Düzenle</button>
+                            <button onclick="deleteTask(${task.id})" class="btn-red" style="padding: 5px 10px; border:none; color:white; border-radius:5px; cursor:pointer;">Sil</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function startEditTask(task) {
+            document.getElementById('formTitle').innerText = "Görevi Düzenle";
+            document.getElementById('editTaskId').value = task.id;
+            document.getElementById('tName').value = task.title;
+            document.getElementById('tVip').value = task.vip;
+            document.getElementById('tImg').value = task.image;
+            document.getElementById('tPrice').value = task.price;
+            document.getElementById('tProfit').value = task.profit;
+            document.getElementById('taskSubmitBtn').innerText = "Güncelle";
+            document.getElementById('cancelEditBtn').style.display = "inline-block";
+        }
+
+        function resetTaskForm() {
+            document.getElementById('formTitle').innerText = "Yeni Görev Ekle";
+            document.getElementById('editTaskId').value = "";
+            document.getElementById('tName').value = "";
+            document.getElementById('tVip').value = "1";
+            document.getElementById('tImg').value = "";
+            document.getElementById('tPrice').value = "0";
+            document.getElementById('tProfit').value = "";
+            document.getElementById('taskSubmitBtn').innerText = "Görevi Yayınla";
+            document.getElementById('cancelEditBtn').style.display = "none";
+        }
+
+        async function saveTask() {
+            const id = document.getElementById('editTaskId').value;
+            const body = {
+                title: document.getElementById('tName').value,
+                vip: document.getElementById('tVip').value,
+                image: document.getElementById('tImg').value,
+                price: document.getElementById('tPrice').value,
+                profit: document.getElementById('tProfit').value
+            };
+            const url = id ? '/admin/update-task' : '/admin/add-task';
+            if(id) body.id = parseInt(id);
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            });
+            if(res.ok) {
+                alert(id ? "Görev güncellendi!" : "Görev eklendi!");
+                resetTaskForm();
+                loadTasks();
+            }
+        }
+
+        async function deleteTask(id) {
+            if(!confirm("Bu görevi silmek istediğinize emin misiniz?")) return;
+            const res = await fetch('/admin/delete-task', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ id })
+            });
+            if(res.ok) loadTasks();
+        }
+    </script>
+</body>
+</html>
