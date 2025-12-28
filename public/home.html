@@ -238,11 +238,11 @@
 
         async function fetchHomeData() {
             try {
-                const response = await fetch('http://localhost:3000/get-user', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phone: currentUserPhone })
-                });
+                const response = await fetch('/get-user', { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone: currentUserPhone })
+});
                 const data = await response.json();
 
                 if (data.success) {
