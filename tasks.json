@@ -1,34 +1,114 @@
 [
   {
-    "id": 1766884629546,
-    "title": "1. görev",
-    "vip": 6,
-    "image": "",
-    "price": 10,
-    "profit": 20
-  },
-  {
-    "id": 1766884643199,
-    "title": "2. görewv",
-    "vip": 6,
-    "image": "",
-    "price": 100,
-    "profit": 12
-  },
-  {
-    "id": 1766884804312,
-    "title": "1. görev ayakkabı ",
+    "id": 1767036293215,
+    "title": "Nazalya 300 ml Ulrasonik Ledli Hava Nemlendirici",
     "vip": 1,
-    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRpKwXu_aUFTiha9mpsNjh7D96SRAX9_h9bqYAVPsYirYei3aQ6uJC3n9AtiMgyoKexBi6TrFUWlg6-E5aSI246dP4viEErVDQXwPb0HQHyvPlZr1tmUALi",
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1763/prod/QC_ENRICHMENT/20250925/13/c55e17f2-d723-3ff7-ba62-4ec06846b2ee/1_org_zoom.jpg",
     "price": 0,
+    "profit": 25
+  },
+  {
+    "id": 1767036310285,
+    "title": "Xiaomi Wifi Pro Sinyal Yaklaştırıcı Güçlendirici",
+    "vip": 1,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1066/product/media/images/prod/PIM/20231127/14/d82f755f-8509-4412-8f50-ac7457ea5067/1_org_zoom.jpg",
+    "price": 15,
+    "profit": 40
+  },
+  {
+    "id": 1767036325284,
+    "title": "Genel Markalar Not Yazma Ve Çizim Tableti ",
+    "vip": 1,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1540/product/media/images/ty1539/prod/QC/20240913/11/30b7976f-794f-32a0-a0bd-659885018019/1_org_zoom.jpg",
+    "price": 30,
+    "profit": 55
+  },
+  {
+    "id": 1767036341874,
+    "title": "Xiaomi Redmi Buds 6 Play Siyah Kulakiçi Kulaklık",
+    "vip": 1,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1745/product/media/images/prod/PIM/20250911/15/661d9a34-22b5-4ec6-b7f3-6e8fdc6d97aa/1_org_zoom.jpg",
+    "price": 25,
     "profit": 50
   },
   {
-    "id": 1766884830355,
-    "title": "2. görev drone ",
+    "id": 1767036362332,
+    "title": "Woyax Powerbank 20000mah Hızlı 22.5w Taşınabilir Batarya Şarj Cihazı",
     "vip": 1,
-    "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSnjBDWhYK0nCic26cR_H683owq47nWUoCfBT5SnuWbZ3n6XMm5OQPHqufpnCNxAIFHivQoLjQ-1znEjRzMWqMXbcZknOB-TS-Qq9pZoS89PnezJhzlmtd8Hw",
-    "price": 25,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1781/prod/QC_ENRICHMENT/20251022/17/5cfd3696-91e1-3249-af47-07b11990c173/1_org_zoom.jpg",
+    "price": 50,
     "profit": 100
+  },
+  {
+    "id": 1767036381644,
+    "title": "Genel Markalar Xiaomi Redmi Note 12 Pro 5G Uyumlu 67 Watt Hızlı Şarj adaptörü ",
+    "vip": 1,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1753/prod/QC_PREP/20250912/20/b19b5ccd-c072-35dc-ab79-503823529991/1_org_zoom.jpg",
+    "price": 75,
+    "profit": 125
+  },
+  {
+    "id": 1767036397656,
+    "title": "Xiaomi Smart Band 10 - Siyah Akıllı Bileklik",
+    "vip": 1,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1745/product/media/images/prod/PIM/20250911/10/a6663ead-44d3-4888-8a14-a993deb80a0b/1_org_zoom.jpg",
+    "price": 100,
+    "profit": 200
+  },
+  {
+    "id": 1767036701371,
+    "title": "adidas Samba OG Unisex Beyaz Spor Ayakkabı",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1607/prod/QC/20241122/19/f425105c-921d-33ec-b956-f09eca22da00/1_org_zoom.jpg",
+    "price": 0,
+    "profit": 100
+  },
+  {
+    "id": 1767036861006,
+    "title": "Puma Buzz Backpack Unisex Çanta 091153-03 Navy",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1739/prod/QC_PREP/20250825/08/1b3ddc81-bb35-3060-b4c8-2b2f694eebce/1_org_zoom.jpg",
+    "price": 50,
+    "profit": 150
+  },
+  {
+    "id": 1767036984522,
+    "title": "Dambılcım Dambıl Seti 5 Kg X 2 Adet",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1504/product/media/images/prod/QC/20240827/05/b6d2e4dc-aa2a-333e-ad98-a882016ed471/1_org_zoom.jpg",
+    "price": 100,
+    "profit": 200
+  },
+  {
+    "id": 1767037047796,
+    "title": "Usr CORD50-BS 3X-Sert Direnç Bandı",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1648/prod/QC/20250311/12/10b1676e-4088-3cbe-be8c-597b196184b7/1_org_zoom.jpg",
+    "price": 150,
+    "profit": 250
+  },
+  {
+    "id": 1767037131705,
+    "title": "Proforce Optimumm Koşu Bandı Masaj Aletli",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1600/prod/QC/20241112/10/23a6e632-eec0-3aa0-932f-68986949c236/1_org_zoom.jpg",
+    "price": 750,
+    "profit": 900
+  },
+  {
+    "id": 1767037359136,
+    "title": "Genel Markalar Profesyonel 5-100 KG Basan Ayarlanabilir Numaratörlü El Bilek Kol Güçlendirici El Yayı",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1804/prod/QC_ENRICHMENT/20251225/00/259021a0-3882-3d49-a62d-d617c19544ac/1_org_zoom.jpg",
+    "price": 400,
+    "profit": 700
+  },
+  {
+    "id": 1767037479148,
+    "title": "Fly Superloop Camouflage Boks Eldiveni",
+    "vip": 2,
+    "image": "https://cdn.dsmcdn.com/mnresize/620/920/ty1618/prod/QC/20241230/19/25dfcb5c-575b-3f16-963f-950dedb90eef/1_org_zoom.jpg",
+    "price": 700,
+    "profit": 1000
   }
 ]

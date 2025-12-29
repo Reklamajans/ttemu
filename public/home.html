@@ -42,18 +42,22 @@
         .bs-val-black { color: #000; font-weight: bold; font-size: 16px; margin-top: 5px;}
         .bs-val-orange { color: #fb7701; font-weight: bold; font-size: 16px; margin-top: 5px;}
         .bs-val-blue { color: #3498db; font-weight: bold; font-size: 16px; margin-top: 5px;}
+        
+        /* --- GÜNCELLENEN TICKER ALANI --- */
         .scrolling-section { padding: 0 15px; margin-bottom: 20px; }
         .section-title { font-weight: bold; margin-bottom: 10px; font-size: 16px; color: #000; }
-        .ticker-container { height: 280px; overflow: hidden; position: relative; background-color: white; border-radius: 10px; }
-        .ticker-content { position: absolute; width: 100%; animation: scrollUp 15s linear infinite; }
-        @keyframes scrollUp { 0% { top: 0; } 100% { top: -450px; } }
-        .ticker-item { background-color: white; margin-bottom: 10px; border-radius: 10px; border: 1px solid #eee; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .ticker-container { height: 280px; overflow: hidden; position: relative; background-color: white; border-radius: 10px; border: 1px solid #eee; }
+        .ticker-content { position: absolute; width: 100%; animation: scrollUp 40s linear infinite; }
+        @keyframes scrollUp { 0% { top: 0; } 100% { top: -1200px; } }
+        .ticker-item { background-color: white; border-bottom: 1px solid #f5f5f5; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .ticker-left { display: flex; align-items: center; gap: 10px; }
-        .t-logo-box { background-color: #fb7701; color: white; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 12px; }
+        .t-logo-box { background-color: #fb7701; color: white; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 12px; border-radius: 5px; }
         .t-phone { color: #666; font-size: 14px; }
         .ticker-right { text-align: right; }
         .t-lbl { font-size: 11px; color: #999; }
-        .t-amount { font-weight: bold; font-size: 15px; color: #000; }
+        .t-amount { font-weight: bold; font-size: 15px; color: #2ecc71; }
+        /* --- GÜNCELLEME BİTİŞ --- */
+
         .partners-section { padding: 0 15px; margin-bottom: 20px; }
         .partners-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .partner-box { background-color: white; height: 50px; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 13px; color: #555; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
@@ -73,14 +77,11 @@
         .modal-close-btn { background-color: #fb7701; color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; margin-top: 15px; }
         #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 25px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 100px; transform: translateX(-50%); font-size: 14px; }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        
         <div class="top-bar">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div class="brand-logo">TEMU</div>
@@ -120,7 +121,6 @@
         </div>
 
         <div class="user-section">
-            
             <div class="user-header-panel">
                 <div class="user-avatar-bg"><i class="fa-solid fa-user"></i></div>
                 <div class="user-info-text">
@@ -167,15 +167,7 @@
         <div class="scrolling-section">
             <div class="section-title">Kullanıcı komisyonu gelir dinamikleri</div>
             <div class="ticker-container">
-                <div class="ticker-content">
-                    <div class="ticker-item">
-                        <div class="ticker-left"><div class="t-logo-box">TEMU</div><span class="t-phone">+90*******42</span></div>
-                        <div class="ticker-right"><span class="t-lbl">Komisyon</span><br><span class="t-amount">TRY 33,527.00</span></div>
-                    </div>
-                    <div class="ticker-item">
-                        <div class="ticker-left"><div class="t-logo-box">TEMU</div><span class="t-phone">+90*******88</span></div>
-                        <div class="ticker-right"><span class="t-lbl">Komisyon</span><br><span class="t-amount">TRY 3,766.00</span></div>
-                    </div>
+                <div class="ticker-content" id="liveTicker">
                     </div>
             </div>
         </div>
@@ -194,29 +186,16 @@
                 <div class="partner-box p-yellow">SOUQ</div>
             </div>
         </div>
-
     </div>
 
     <div class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <i class="fa-solid fa-house"></i>
-            <span>Ön Sayfa</span>
-        </a>
-        <a href="jobs.html" class="nav-item">
-            <i class="fa-regular fa-heart"></i>
-            <span>İş</span>
-        </a>
+        <a href="#" class="nav-item active"> <i class="fa-solid fa-house"></i> <span>Ön Sayfa</span> </a>
+        <a href="jobs.html" class="nav-item"> <i class="fa-regular fa-heart"></i> <span>İş</span> </a>
         <div class="nav-center-wrapper">
             <a href="orders.html" class="nav-center-btn"><i class="fa-solid fa-bolt"></i></a>
         </div>
-        <a href="orders.html" class="nav-item">
-            <i class="fa-regular fa-file-lines"></i>
-            <span>Emir</span>
-        </a>
-        <a href="dashboard.html" class="nav-item">
-            <i class="fa-regular fa-face-smile"></i>
-            <span>Bana ait</span>
-        </a>
+        <a href="orders.html" class="nav-item"> <i class="fa-regular fa-file-lines"></i> <span>Emir</span> </a>
+        <a href="dashboard.html" class="nav-item"> <i class="fa-regular fa-face-smile"></i> <span>Bana ait</span> </a>
     </div>
 
     <div class="modal-overlay" id="contactModal">
@@ -229,59 +208,60 @@
     <div id="toast">Davet kodu kopyalandı!</div>
 
     <script>
-        // --- SUNUCU ENTEGRASYONU ---
         const currentUserPhone = localStorage.getItem('currentUserPhone');
-        
-        if (!currentUserPhone) {
-            window.location.href = "login.html";
+        if (!currentUserPhone) { window.location.href = "login.html"; }
+
+        // YÜKSEK TUTARLI KOMİSYON LİSTESİ OLUŞTURMA
+        function generateTicker() {
+            const ticker = document.getElementById('liveTicker');
+            let html = "";
+            for(let i=0; i<30; i++) {
+                const phone = "+90*******" + Math.floor(10 + Math.random() * 89);
+                // 15.000 TL ile 120.000 TL arası tutarlar
+                const amount = (15000 + Math.random() * 105000).toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+                html += `
+                    <div class="ticker-item">
+                        <div class="ticker-left"><div class="t-logo-box">TEMU</div><span class="t-phone">${phone}</span></div>
+                        <div class="ticker-right"><span class="t-lbl">Komisyon</span><br><span class="t-amount">TRY ${amount}</span></div>
+                    </div>
+                `;
+            }
+            ticker.innerHTML = html;
         }
 
         async function fetchHomeData() {
             try {
                 const response = await fetch('/get-user', { 
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone: currentUserPhone })
-});
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ phone: currentUserPhone }) 
+                });
                 const data = await response.json();
-
                 if (data.success) {
-                    // UI Güncelleme
-                    document.getElementById('displayPhone').innerText = data.user.phone;
+                    const maskedPhone = data.user.phone.substring(0, 3) + "****" + data.user.phone.substring(data.user.phone.length - 4);
+                    document.getElementById('displayPhone').innerText = maskedPhone;
                     document.getElementById('displayBalance').innerText = "TRY " + data.user.balance.toFixed(2);
                     document.getElementById('displayMission').innerText = "TRY " + data.user.balance.toFixed(2);
-                    document.getElementById('displayCumulative').innerText = "TRY " + (data.user.balance - 50).toFixed(2);
-                    
-                    // Rastgele Promosyon Kodu (Veya veritabanından varsa onu çekin)
+                    document.getElementById('displayCumulative').innerText = "TRY " + (data.user.balance * 1.5).toFixed(2);
                     document.getElementById('myRefCode').innerText = "LJ" + data.user.phone.substring(7);
-
-                    // LocalStorage Senkronizasyonu
-                    localStorage.setItem('balance', data.user.balance);
-                    localStorage.setItem('vipLevel', data.user.vipLevel);
                 }
-            } catch (error) {
-                console.error("Veri çekme hatası:", error);
-            }
+            } catch (error) { console.error("Veri çekme hatası:", error); }
         }
 
-        window.onload = fetchHomeData;
+        window.onload = () => {
+            fetchHomeData();
+            generateTicker();
+        };
 
-        // --- UI FONKSİYONLARI ---
         function showContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
         function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
-        
         function copyInviteCode() {
             const code = document.getElementById('myRefCode').innerText;
             navigator.clipboard.writeText(code).then(() => {
-                showToast("Kopyalandı: " + code);
+                var x = document.getElementById("toast");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             });
-        }
-
-        function showToast(message) {
-            var x = document.getElementById("toast");
-            x.innerText = message;
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }
     </script>
 </body>

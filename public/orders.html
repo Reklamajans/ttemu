@@ -40,20 +40,29 @@
         .process-btn { background-color: #fb7701; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; }
         .completed-btn { background-color: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; cursor: default; }
 
+        /* --- MODAL VE BAR DÜZELTME --- */
         .processing-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-        .product-preview { width: 180px; height: 180px; background: #f9f9f9; border-radius: 20px; padding: 10px; border: 1px solid #eee; margin-bottom: 40px; }
-        .product-preview img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
-        .simple-progress-container { width: 240px; height: 4px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
-        .simple-progress-bar { width: 0%; height: 100%; background: #fb7701; transition: width 0.1s linear; }
+        .product-preview { width: 200px; height: 200px; background: #f9f9f9; border-radius: 20px; padding: 10px; border: 1px solid #eee; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; }
+        .product-preview img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; }
+        
+        /* Bar'ın dış kutusu */
+        .simple-progress-container { width: 280px; height: 8px; background: #f0f0f0; border-radius: 10px; overflow: hidden; position: relative; }
+        /* İlerleyen renkli bar */
+        .simple-progress-bar { width: 0%; height: 100%; background: #fb7701; border-radius: 10px; transition: width 0.1s linear; }
         
         .error-box { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .error-btn { background: #fb7701; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; width: 100%; margin-top: 20px; cursor: pointer; }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; height: 70px; background-color: white; display: flex; justify-content: space-around; align-items: flex-end; padding-bottom: 10px; border-top: 1px solid #eee; z-index: 999; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #999; font-size: 11px; width: 20%; margin-bottom: 5px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+        .empty-state i { font-size: 40px; color: #eee; }
+
+        /* --- ALT NAV (Görsel Kayma Engellendi) --- */
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; height: 75px; background-color: white; display: flex; justify-content: space-around; align-items: center; padding-bottom: 5px; border-top: 1px solid #eee; z-index: 999; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #999; font-size: 11px; width: 20%; }
         .nav-item i { font-size: 22px; margin-bottom: 4px; }
         .nav-item.active { color: #fb7701; }
-        .nav-center-btn { width: 55px; height: 55px; background: linear-gradient(135deg, #fb7701 0%, #ff9030 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; position: absolute; bottom: 10px; box-shadow: 0 4px 10px rgba(251, 119, 1, 0.4); text-decoration: none; border: 4px solid #fff; }
+        .nav-center-wrapper { width: 20%; display: flex; justify-content: center; align-items: center; position: relative; }
+        .nav-center-btn { width: 55px; height: 55px; background: linear-gradient(135deg, #fb7701 0%, #ff9030 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; position: absolute; top: -35px; box-shadow: 0 4px 10px rgba(251, 119, 1, 0.4); text-decoration: none; border: 4px solid #fff; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -85,28 +94,28 @@
     </div>
 
     <div class="processing-modal" id="processingModal">
-        <div id="loadingStep" style="display: flex; flex-direction: column; align-items: center;">
+        <div id="loadingStep" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             <div class="product-preview">
                 <img src="" id="processingImage">
             </div>
-            <div class="status-label" id="processText" style="margin-bottom:15px; font-weight:bold;">Ödeme Doğrulanıyor...</div>
+            <div class="status-label" id="processText" style="margin-bottom:20px; font-weight:bold; font-size: 18px; color: #333;">Sipariş İşleniyor...</div>
             <div class="simple-progress-container">
                 <div class="simple-progress-bar" id="progressBar"></div>
             </div>
         </div>
         <div id="successStep" style="display:none; text-align:center;">
-            <i class="fa-solid fa-circle-check" style="font-size:60px; color:#27ae60; margin-bottom:15px;"></i>
-            <h2>Sipariş Tamamlandı</h2>
-            <p style="color:#666;">Komisyon hesabınıza eklendi.</p>
+            <i class="fa-solid fa-circle-check" style="font-size:70px; color:#27ae60; margin-bottom:20px;"></i>
+            <h2 style="color: #333;">Başarılı!</h2>
+            <p style="color:#666; margin-top: 10px;">Komisyon hesabınıza tanımlandı.</p>
         </div>
     </div>
 
     <div class="processing-modal" id="errorModal">
         <div class="error-box">
             <i class="fa-solid fa-circle-exclamation" style="font-size:50px; color:#e74c3c; margin-bottom:20px;"></i>
-            <h2>Yetersiz Bakiye</h2>
-            <p style="color:#666;">Bu siparişi tamamlamak için yeterli bakiyeniz bulunmuyor.</p>
-            <button class="error-btn" onclick="closeErrorModal()">Tamam</button>
+            <h2>Bakiye Yetersiz</h2>
+            <p style="color:#666; margin-top: 10px;">Lütfen bu görevi yapabilmek için bakiye yükleyiniz.</p>
+            <button class="error-btn" onclick="closeErrorModal()">Anladım</button>
         </div>
     </div>
 
@@ -121,7 +130,6 @@
     </div>
 
     <script>
-        // Geliştirici konsolunu ve sağ tıkı engelle
         document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
 
         const currentUserPhone = localStorage.getItem('currentUserPhone');
@@ -164,11 +172,23 @@
 
             if (currentTab === 'completed') {
                 const completed = allVipTasks.filter(t => userCompletedTasks.includes(t.id));
-                completed.forEach(task => renderTaskCard(container, task, true));
+                if(completed.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-folder-open"></i><p>Tamamlanmış görev bulunmuyor.</p></div>`;
+                } else {
+                    completed.forEach(task => renderTaskCard(container, task, true));
+                }
             } else {
                 const pending = allVipTasks.filter(t => !userCompletedTasks.includes(t.id));
-                if (pending.length > 0) renderTaskCard(container, pending[0], false);
-                else container.innerHTML = `<div style="text-align:center; padding:50px;">Tüm görevler bitti!</div>`;
+                if (pending.length > 0) {
+                    renderTaskCard(container, pending[0], false);
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-circle-check" style="color: #27ae60; opacity: 1;"></i>
+                            <p style="color:#333; font-weight:bold;">Tüm görevler bitti!</p>
+                            <p style="font-size:12px;">Yeni görevler için yarını bekleyin.</p>
+                        </div>`;
+                }
             }
         }
 
@@ -183,7 +203,7 @@
                         <div class="task-meta">Maliyet: ${maliyet.toFixed(2)} TL</div>
                         <div class="task-meta">Kazanç: <span class="task-highlight">+${kazanc.toFixed(2)} TL</span></div>
                     </div>
-                    ${isDone ? '<button class="completed-btn">Bitti</button>' : 
+                    ${isDone ? '<button class="completed-btn"><i class="fa-solid fa-check"></i> Bitti</button>' : 
                     `<button class="process-btn" onclick="processOrder(${task.id}, '${task.image}', ${kazanc}, ${maliyet})">İşle</button>`}
                 </div>`;
         }
@@ -207,7 +227,6 @@
                 if (progress >= 100) {
                     clearInterval(timer);
                     
-                    // MATEMATİKSEL HESAPLAMA: Maliyet düşer, Kâr eklenir.
                     const newBalance = (userBalance - maliyet) + parseFloat(profit);
                     userCompletedTasks.push(taskId);
 
@@ -225,8 +244,9 @@
                         modal.style.display = 'none';
                         document.getElementById('loadingStep').style.display = 'flex';
                         document.getElementById('successStep').style.display = 'none';
+                        document.getElementById('progressBar').style.width = '0%';
                         updateUI();
-                    }, 1500);
+                    }, 1800);
                 }
             }, 100);
         }
